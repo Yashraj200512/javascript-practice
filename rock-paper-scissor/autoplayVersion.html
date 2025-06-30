@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rock-paper-scissor</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial;
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .button {
+            padding: 32px;
+            border: 2.5px solid white;
+            background: black;
+            border-radius: 150px;
+            margin-right: 20px;
+        }
+
+        .button:hover {
+            background: rgb(229, 223, 223);
+        }
+
+        .image {
+            height: 50px;
+        }
+
+        .reset,
+        .autoplay {
+            margin: 30px 0 0 20px;
+            background-color: white;
+            padding: 9px 17px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        .reset:hover,
+        .autoplay:hover {
+            background-color: #000;
+            /* black */
+            color: white;
+            border: 2px solid white;
+        }
+
+        .autoplay:active {
+            box-shadow: 0 0 10px 5px blue;
+        }
+
+        .js-game-detail {
+            margin: 30px 0 30px 0px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .js-scores {
+
+            border: 2px solid;
+            display: inline-block;
+            padding: 10px;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rock-paper-scissor">
+        <p class="title">Rock Paper Scissors</p>
+        <div>
+            <button class="button" onclick="renderGame(1);">
+                <img class="image" src="images/rock-emoji.png" />
+            </button>
+
+            <button class="button" onclick=" renderGame(2);">
+                <img class="image" src="images/paper-emoji.png" />
+            </button>
+
+            <button class="button" onclick=" renderGame(3);">
+                <img class="image" src="images/scissors-emoji.png" />
+            </button>
+        </div>
+        <div class="js-game-detail"></div>
+
+        <p class="js-game-detail2"></p>
+
+        <div class="js-scores">Wins:0, Losses:0, Ties:0 </div>
+
+        <button class="reset" onclick="score.win=0; score.losses=0; score.tie=0; 
+                                       localStorage.removeItem('score');  
+                                       updateScore();">
+            Reset Score
+        </button>
+        <button class="autoplay" onclick="autoPlay();">Auto Play</button>
+    </div>
+
+    <script>
+        let score = {};
+
+        score = JSON.parse(localStorage.getItem("score"));
+
+        if (score === null) score = { win: 0, losses: 0, tie: 0 };
+
+        let result = "";
+        let comp_choice = 0;
+        let comp_string = ["null", "rock", "paper", "scissors"];
+
+        let user_choice = 0;
+
+        function renderGame(num) {
+            comp_choice = generateRandomChoice();
+            user_choice = num;
+            //calculates score and generates result of the match and store in local storage.
+            if (
+                (comp_choice === 3 && user_choice === 1) ||
+                (comp_choice === 1 && user_choice === 2) ||
+                (comp_choice === 2 && user_choice === 3)
+            ) {
+                result = `You win`;
+                score.win += 1;
+            } else if (comp_choice === user_choice) {
+                result = `tie`;
+                score.tie += 1;
+            } else {
+                result = `You lose`;
+                score.losses += 1;
+            }
+            localStorage.setItem("score", JSON.stringify(score));
+            display();
+        }
+
+        function display() {
+
+
+            //displays result and score on webpage
+
+            document.querySelector(".js-game-detail").innerHTML = `${result}`;
+
+            document.querySelector(
+                ".js-game-detail2"
+            ).innerHTML = ` You<img class="image" src="images/${comp_string[user_choice]}-emoji.png"><img class="image" src="images/${comp_string[comp_choice]}-emoji.png">Computer`;
+
+            updateScore();
+        }
+
+        function updateScore() {
+            document.querySelector(".js-scores").innerHTML = `Wins:${score.win}, Losses:${score.losses}, Ties:${score.tie}`;
+        }
+
+        let isAutoPlaying = false;
+        let intervalId;
+        function autoPlay() {
+            if (!isAutoPlaying) {
+                intervalId= setInterval(function () {
+                    user_choice = generateRandomChoice();
+                    renderGame(user_choice);
+                }, 2000);
+                isAutoPlaying = true;
+                document.querySelector('.autoplay').innerText = 'Stop play';
+            }
+            else {
+                clearInterval(intervalId);
+                isAutoPlaying = false;
+                 document.querySelector('.autoplay').innerText = 'Auto Play';
+            }
+
+        }
+
+        function generateRandomChoice() {
+            //genrates random number from {1,2,3}
+            return Math.floor(Math.random() * 3) + 1;
+        }
+    </script>
+</body>
+
+</html>
