@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dom</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+body{
+    padding-bottom: 1000px;
+}
+        .yt {
+            font-family: sans-serif;
+            display: flex;
+            background-color: aquamarine;
+            flex-direction: column;
+            align-items: center;
+            height: 150px;
+            justify-content: center;
+        }
+
+        .btn {
+            margin-top: 15px;
+            border-radius: 30px;
+            height: 35px;
+            width: 107px;
+            font-size: 17px;
+            color: whitesmoke;
+            background-color: black;
+            cursor: pointer;
+        }
+
+        .cost {
+            height: 30px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .btn2 {
+            height: 38px;
+            width: 100px;
+            border-radius: 30px;
+
+            border-bottom: 5px solid;
+        }
+
+        .btn2:active {
+            border-bottom: 3px solid rgb(7, 7, 7);
+
+            transform: translateY(3px);
+        }
+
+        .type{
+            margin-top: 30px;
+            margin-left: 100px;
+             height: 30px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="yt">
+        <div>YouTube Subscribe Button</div>
+        <button class="btn" onclick="subscribe();">Subscribe
+        </button>
+    </div>
+
+    <div>
+        <p> Amazon Shipping Calculator</p>
+        <p>Orders under $40 = +$10 shipping</p>
+        <p>Orders over $40 = FREE shipping</p>
+
+        <div>
+            <input class="cost" placeholder="Cost of order" 
+                onkeydown=" if(event.key==='Enter') totalCost();">
+            <span class="costTotal"></span>
+        </div>
+
+        <button class="btn2" onclick="totalCost();">Calculate</button>
+    </div>
+ 
+
+    <div><input placeholder="type..." class="type" onkeydown="document.querySelector('.typed-text').innerHTML=document.querySelector('.type').value"></div>
+<p class="typed-text"></p>
+
+    <script>
+        function totalCost() {
+            let costElement = document.querySelector('.cost');
+
+            if (costElement.value < 40) {
+                costElement.value = Number(costElement.value) + 10;
+                costElement.value=Number(costElement.value).toFixed(2);
+            }
+
+            document.querySelector('.costTotal').innerHTML = `Total cost: $${costElement.value}`
+
+        }
+        function subscribe() {
+
+            if (document.querySelector('.btn').innerHTML === 'Subscribe') {
+                document.querySelector('.btn').innerHTML = 'Subscribed'
+                this.style.backgroundColor = 'white';
+                this.style.color = 'black';
+            }
+            else {
+                document.querySelector('.btn').innerHTML = 'Subscribe'
+                this.style.backgroundColor = 'black';
+                this.style.color = 'white';
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>

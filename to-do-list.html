@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        .del {
+            background-color: red;
+            border: none;
+            color: white;
+            height: 40px;
+        }
+
+        .list,
+        .top-grid {
+            display: grid;
+            grid-template-columns: 200px 150px 100px;
+            column-gap: 10px;
+            row-gap: 10px;
+            align-items: center;
+        }
+
+        .js-input,
+        .js-date {
+
+            padding: 10px;
+            margin-bottom: 10px;
+
+        }
+
+
+        .add-btn {
+            background-color: green;
+            height: 40px;
+            border: none;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+       .js-placeholder::placeholder{
+        color: red;
+       }
+    
+    </style>
+</head>
+
+<body>
+    <p>TO-DO LIST</p>
+    <div class="top-grid">
+
+        <input class="js-input" placeholder="Todo name">
+        <input class="js-date" type="date">
+        <button class="add-btn" onclick="addToArray();">Add</button></div>
+        <div class="list"></div>
+
+
+
+        <script>
+            let arr = JSON.parse( localStorage.getItem('todoList'));
+
+            if(!arr){arr=[];}
+            display();
+
+            function addToArray() {
+
+                
+
+                const inputElement = document.querySelector('.js-input');
+                const dateElement = document.querySelector('.js-date');
+
+                const Name = inputElement.value;
+                const Date = dateElement.value;
+
+                if(!Name.trim())
+            {
+                   inputElement.placeholder='please write a todo task!';
+                   document.querySelector('.js-input').classList.add('js-placeholder');
+                   return;
+            }
+            if(!Date){
+                alert('please write date for the due task');
+                return;
+
+            }
+             inputElement.placeholder='Todo name';
+              document.querySelector('.js-input').classList.remove('js-placeholder');
+
+                arr.push({
+                    name: Name,
+                    date: Date
+                });
+
+
+                inputElement.value = '';
+                display();
+
+            }
+
+            function display() {
+                let listofTodo = '';
+
+                for (let i = 0; i < arr.length; i++) {
+                    let name = arr[i].name;
+                    let date = arr[i].date;
+                    listofTodo = listofTodo + `<div class="style" >${name}</div><div class="style" >${date}</div>      <button class="del" class="style" onclick="arr.splice(${i},1); display();">Delete</button>`;
+                }
+
+                document.querySelector('.list').innerHTML = listofTodo;
+
+                localStorage.setItem('todoList',JSON.stringify(arr));
+            }
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic HTML Outline</title>
+    <style>
+        body {
+            background-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .button-style {
+
+            height: 60px;
+            width: 60px;
+            border-radius: 30px;
+            font-size: 26px;
+            color: white;
+            border: none;
+            background-color: rgb(51, 51, 51);
+            margin: 5px 5px 11px 0px;
+
+
+
+        }
+
+        .result {
+            color: white;
+            font-size: 45px;
+            margin: 0;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .operator {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <p class="result">0</p>
+    <div class="calc">
+        <p> <button class="button-style" onclick="calc('1');">1</button>
+            <button class="button-style" onclick="calc('2');">2</button>
+            <button class="button-style" onclick="calc('3');">3</button>
+            <button class="operator button-style" onclick="calc('+');">+</button>
+        </p>
+
+        <p> <button class="button-style" onclick="calc('4');">4</button>
+            <button class="button-style" onclick="calc('5');">5</button>
+            <button class="button-style" onclick="calc('6');">6</button>
+            <button class="operator button-style" onclick="calc('-');">-</button>
+        </p>
+
+        <p> <button class="button-style" onclick="calc('7');">7</button>
+            <button class="button-style" onclick="calc('8');">8</button>
+            <button class="button-style" onclick="calc('9');">9</button>
+            <button class="operator button-style" onclick="calc('*');">*</button>
+        </p>
+
+        <p> <button class="button-style" onclick="calc('0');">0</button>
+            <button class="button-style" onclick="calc('.');">.</button>
+
+            <button class="button-style" onclick="num=eval(num); console.log(num);result(); localStorage.setItem('num',num);">=</button>
+            
+            <button class="operator button-style" onclick="calc('/');">/</button>
+        </p>
+
+        <p>
+            <button style="font-size: 17px;" class="button-style" onclick="num=''; result();
+            localStorage.removeItem('num');">Clear</button>
+        </p>
+
+    </div>
+
+    <script>
+
+        let num = localStorage.getItem('num') || '';
+        result();
+        function calc(str) {
+
+            num += `${str}`; console.log(num);
+            localStorage.setItem('num', num);
+            result();
+        }
+
+        function result() {
+            document.querySelector('.result').innerHTML = num;
+        }
+    </script>
+</body>
+
+</html>

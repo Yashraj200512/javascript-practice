@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons Practice</title>
+    <style>
+        body {
+            padding: 50px 0 0 60px;
+        }
+
+        .btn1-on,
+        .btn2-on,
+        .btn3-on {
+            border: none;
+            width: 130px;
+            height: 50px;
+            font: 1.5em sans-serif;
+            font-weight: 00;
+
+            background-color: gainsboro;
+        }
+
+        .btn-off {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="btn-on btn1-on" onclick="onoff(1);">ON</button>
+    <button class="btn-on btn2-on" onclick="onoff(2);">ON</button>
+    <button class="btn-on btn3-on" onclick="onoff(3);">ON</button>
+    
+    <script>
+
+
+        function onoff(num) {
+
+            const listOfClass = document.querySelector(`.btn${num}-on`).classList;
+            if (listOfClass.contains('btn-off')) {
+                listOfClass.remove('btn-off');
+
+            }
+            else {
+                if (document.querySelector('.btn-off')) {
+                    document.querySelector('.btn-off').innerText = 'ON';
+                    document.querySelector('.btn-off').classList.remove('btn-off');
+
+                }
+
+                listOfClass.add('btn-off');
+            }
+
+            if (document.querySelector(`.btn${num}-on`).innerText === 'OFF') {
+                document.querySelector(`.btn${num}-on`).innerText = 'ON';
+            }
+            else {
+                document.querySelector(`.btn${num}-on`).innerText = 'OFF';
+            }
+
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
