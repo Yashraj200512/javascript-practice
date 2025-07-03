@@ -70,6 +70,13 @@
             background-color: white;
             color: black;
             font-weight: bold;
+            margin-bottom: 10px;
+
+        }
+
+        .js-confirm-msg {
+            margin-left: 110px;
+            bottom: 1px solid white;
 
         }
     </style>
@@ -97,10 +104,10 @@
 
         <div class="js-scores">Wins:0, Losses:0, Ties:0 </div>
 
-        <button class="reset" onclick=>
-            Reset Score
-        </button>
-        <button class="autoplay" onclick="autoPlay();">Auto Play</button>
+        <button class="reset">Reset Score </button>
+
+        <button class="autoplay">Auto Play</button>
+        <div class="js-confirm-msg"></div>
     </div>
 
     <script>
@@ -118,44 +125,31 @@
 
 
 
-document.body.addEventListener('keydown',
-(event)=>{
+        document.body.addEventListener('keydown',
+            (event) => {
 
-    switch(event.key){
+                switch (event.key) {
 
-        case 'r':renderGame(1); break;
-        case 'p':renderGame(2); break;
-        case 's':renderGame(3); break; 
-    }
+                    case 'r': renderGame(1); break;
+                    case 'p': renderGame(2); break;
+                    case 's': renderGame(3); break;
+                    case 'a': autoPlay(); break;
+                    case 'Delete': resetConfirmation(); break;
+                }
+            }
 
-}
+        );
 
-
-
-
-);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        document.querySelector('.autoplay')
+            .addEventListener('click', () => {
+                autoPlay();
+            });
 
         document.querySelector('.js-rock-button')
             .addEventListener('click', () => {
                 renderGame(1);
             });
-            
+
         document.querySelector('.js-paper-button')
             .addEventListener('click', () => {
                 renderGame(2);
@@ -202,11 +196,32 @@ document.body.addEventListener('keydown',
         }
         document.querySelector('.reset')
             .addEventListener('click', () => {
-                score.win = 0; score.losses = 0; score.tie = 0;
-                localStorage.removeItem('score');
-                updateScore();
+                resetConfirmation();
+
             });
 
+
+        function resetConfirmation() {
+            document.querySelector('.js-confirm-msg').innerHTML = `Are you sure you want to reset the score?
+            <button class="js-yes">Yes</button> <button class="js-no">No</button>`
+
+        
+        document.querySelector('.js-yes').addEventListener('click', () => {
+            Reset();
+            document.querySelector('.js-confirm-msg').innerHTML = '';
+
+        });
+        document.querySelector('.js-no').addEventListener('click', () => {
+
+            document.querySelector('.js-confirm-msg').innerHTML = '';
+
+        });
+    }
+        function Reset() {
+            score.win = 0; score.losses = 0; score.tie = 0;
+            localStorage.removeItem('score');
+            updateScore();
+        }
 
         function updateScore() {
             document.querySelector(".js-scores").innerHTML = `Wins:${score.win}, Losses:${score.losses}, Ties:${score.tie}`;
