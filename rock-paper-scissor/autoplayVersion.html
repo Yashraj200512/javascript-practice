@@ -79,15 +79,15 @@
     <div class="rock-paper-scissor">
         <p class="title">Rock Paper Scissors</p>
         <div>
-            <button class="button" onclick="renderGame(1);">
+            <button class="button js-rock-button">
                 <img class="image" src="images/rock-emoji.png" />
             </button>
 
-            <button class="button" onclick=" renderGame(2);">
+            <button class="button js-paper-button">
                 <img class="image" src="images/paper-emoji.png" />
             </button>
 
-            <button class="button" onclick=" renderGame(3);">
+            <button class="button js-scissor-button">
                 <img class="image" src="images/scissors-emoji.png" />
             </button>
         </div>
@@ -97,9 +97,7 @@
 
         <div class="js-scores">Wins:0, Losses:0, Ties:0 </div>
 
-        <button class="reset" onclick="score.win=0; score.losses=0; score.tie=0; 
-                                       localStorage.removeItem('score');  
-                                       updateScore();">
+        <button class="reset" onclick=>
             Reset Score
         </button>
         <button class="autoplay" onclick="autoPlay();">Auto Play</button>
@@ -117,6 +115,55 @@
         let comp_string = ["null", "rock", "paper", "scissors"];
 
         let user_choice = 0;
+
+
+
+document.body.addEventListener('keydown',
+(event)=>{
+
+    switch(event.key){
+
+        case 'r':renderGame(1); break;
+        case 'p':renderGame(2); break;
+        case 's':renderGame(3); break; 
+    }
+
+}
+
+
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        document.querySelector('.js-rock-button')
+            .addEventListener('click', () => {
+                renderGame(1);
+            });
+            
+        document.querySelector('.js-paper-button')
+            .addEventListener('click', () => {
+                renderGame(2);
+            });
+        document.querySelector('.js-scissor-button')
+            .addEventListener('click', () => {
+                renderGame(3);
+            });
 
         function renderGame(num) {
             comp_choice = generateRandomChoice();
@@ -153,6 +200,13 @@
 
             updateScore();
         }
+        document.querySelector('.reset')
+            .addEventListener('click', () => {
+                score.win = 0; score.losses = 0; score.tie = 0;
+                localStorage.removeItem('score');
+                updateScore();
+            });
+
 
         function updateScore() {
             document.querySelector(".js-scores").innerHTML = `Wins:${score.win}, Losses:${score.losses}, Ties:${score.tie}`;
@@ -162,7 +216,7 @@
         let intervalId;
         function autoPlay() {
             if (!isAutoPlaying) {
-                intervalId= setInterval(function () {
+                intervalId = setInterval(function () {
                     user_choice = generateRandomChoice();
                     renderGame(user_choice);
                 }, 2000);
@@ -172,7 +226,7 @@
             else {
                 clearInterval(intervalId);
                 isAutoPlaying = false;
-                 document.querySelector('.autoplay').innerText = 'Auto Play';
+                document.querySelector('.autoplay').innerText = 'Auto Play';
             }
 
         }

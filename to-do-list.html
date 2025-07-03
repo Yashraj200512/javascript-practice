@@ -60,7 +60,7 @@
   <div class="top-grid">
     <input class="js-input" placeholder="Todo name" />
     <input class="js-date" type="date" />
-    <button class="add-btn" onclick="addToArray(); ">Add</button>
+    <button class="add-btn">Add</button>
 
     <div class="js-add"></div>
   </div>
@@ -85,6 +85,13 @@
         messageElement.innerHTML = "";
       }, 2000);
     }
+
+    document.querySelector('.add-btn').addEventListener('click',()=>{
+      addToArray();
+    })
+      document.body.addEventListener('keydown',(event)=>{
+        if(event.key==='Enter') {addToArray();}
+    })
 
 
     function addToArray() {
@@ -125,12 +132,26 @@
         let date = value.date;
         listofTodo =
           listofTodo +
-          `<div class="style" >${name}</div><div class="style" >${date}</div>      <button class="del" class="style" onclick="arr.splice(${index},1); display();">Delete</button>`;
+          `<div class="style" >${name}</div> <div class="style" >${date}</div>      
+          <button class="del" class="style" 
+          >Delete</button>`;
       });
       document.querySelector(".list").innerHTML = listofTodo;
 
-      localStorage.setItem("todoList", JSON.stringify(arr));
+      //you can only place delete event after it gets created so here
+    document.querySelectorAll('.del').forEach((deleteBtn,index)=>{
+      deleteBtn.addEventListener('click',()=>{arr.splice(index,1); display();});
     }
+
+
+        
+    )
+
+const buttons = document.querySelectorAll('.del'); 
+console.log(buttons); // NodeList of buttons with class 'del'
+
+      localStorage.setItem("todoList", JSON.stringify(arr));
+    } 
   </script>
 </body>
 
